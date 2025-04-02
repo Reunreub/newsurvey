@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survey Form</title>
+</head>
+<body>
+  <h2>Survey Form</h2>
+  <form id="surveyForm">
+    <label>Name: <input type="text" id="name" required></label><br><br>
+    <label>Age: <input type="number" id="age" required></label><br><br>
+    <label>Gender: 
+      <select id="gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+    </label><br><br>
+    <label>Email: <input type="email" id="email" required></label><br><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById("surveyForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      
+      // Collect form data
+      let formData = {
+        name: document.getElementById("name").value,
+        age: document.getElementById("age").value,
+        gender: document.getElementById("gender").value,
+        email: document.getElementById("email").value
+      };
+      
+      // Send data to the Google Apps Script
+      let response = await fetch("https://script.google.com/macros/s/AKfycbyRa6wJCHg2VewNJBFxqmOCsU8Wwo9fJcT0_KK1Q7-5DXGPqwchMyWqUaZIiOuJG8s/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+      
+      let result = await response.json();
+      alert(result.message); // Show success message
+    });
+  </script>
+</body>
+</html>
